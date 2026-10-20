@@ -1,0 +1,4 @@
+langgraph>=1.2,<2
+langchain-core>=1.4.7,<2
+numpy>=1.24
+scikit-learn>=1.3
