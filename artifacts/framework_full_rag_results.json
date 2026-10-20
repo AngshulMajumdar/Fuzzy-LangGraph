@@ -1,0 +1,316 @@
+{
+  "framework": "langgraph",
+  "pipeline": "START -> retrieve -> assess -> {generate | expand -> retrieve | abstain} -> END",
+  "clean": {
+    "n": 8,
+    "accuracy": 1.0,
+    "rows": [
+      {
+        "id": "c1",
+        "top_doc": "C1",
+        "answer": "The observatory opens to visitors at 9 AM every Saturday. [C1]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C1"
+        ]
+      },
+      {
+        "id": "c2",
+        "top_doc": "C2",
+        "answer": "The chemistry safety briefing is held in Hall 7. [C2]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C2"
+        ]
+      },
+      {
+        "id": "c3",
+        "top_doc": "C3",
+        "answer": "Library books may be borrowed for 21 days. [C3]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C3"
+        ]
+      },
+      {
+        "id": "c4",
+        "top_doc": "C4",
+        "answer": "The robotics club meets on Thursday evenings. [C4]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C4"
+        ]
+      },
+      {
+        "id": "c5",
+        "top_doc": "C5",
+        "answer": "Visitor parking is located beside Gate 3. [C5]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C5"
+        ]
+      },
+      {
+        "id": "c6",
+        "top_doc": "C6",
+        "answer": "The campus shuttle begins service at 6:30 AM. [C6]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C6"
+        ]
+      },
+      {
+        "id": "c7",
+        "top_doc": "C7",
+        "answer": "The data science seminar carries two academic credits. [C7]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C7"
+        ]
+      },
+      {
+        "id": "c8",
+        "top_doc": "C8",
+        "answer": "The emergency assembly point is the North Lawn. [C8]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "C8"
+        ]
+      }
+    ]
+  },
+  "conflict": {
+    "n": 18,
+    "accuracy": 1.0,
+    "rows": [
+      {
+        "id": "q1",
+        "top_doc": "OFF-HR-PORTAL",
+        "answer": "All employee self-service tasks, including leave requests and payslips, are now handled in PeopleHub. [OFF-HR-PORTAL]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-HR-PORTAL"
+        ]
+      },
+      {
+        "id": "q2",
+        "top_doc": "OFF-LEAVE",
+        "answer": "The 2026 employee benefits policy grants 18 paid leave days per calendar year. [OFF-LEAVE]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-LEAVE"
+        ]
+      },
+      {
+        "id": "q3",
+        "top_doc": "OFF-REMOTE",
+        "answer": "Under the active flexible-work policy, employees may work remotely up to two days per week with manager approval. [OFF-REMOTE]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-REMOTE"
+        ]
+      },
+      {
+        "id": "q4",
+        "top_doc": "OFF-PAYSLIP",
+        "answer": "Payroll publishes salary slips by the fifth working day of each month. [OFF-PAYSLIP]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-PAYSLIP"
+        ]
+      },
+      {
+        "id": "q5",
+        "top_doc": "OFF-VPN",
+        "answer": "The security baseline now requires WireGuard for the standard corporate VPN profile. [OFF-VPN]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-VPN"
+        ]
+      },
+      {
+        "id": "q6",
+        "top_doc": "OFF-BACKUP",
+        "answer": "Production database backups have a retention period of 30 days. [OFF-BACKUP]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-BACKUP"
+        ]
+      },
+      {
+        "id": "q7",
+        "top_doc": "OFF-RATE",
+        "answer": "The current gateway quota permits 120 requests per minute per token. [OFF-RATE]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-RATE"
+        ]
+      },
+      {
+        "id": "q8",
+        "top_doc": "OFF-REGION",
+        "answer": "The production primary region is ap-south-1; disaster recovery remains in a separate region. [OFF-REGION]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-REGION"
+        ]
+      },
+      {
+        "id": "q9",
+        "top_doc": "OFF-EXPENSE",
+        "answer": "For domestic business travel, reimbursable meals are capped at INR 4,500 per day. [OFF-EXPENSE]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-EXPENSE"
+        ]
+      },
+      {
+        "id": "q10",
+        "top_doc": "OFF-REIMB",
+        "answer": "Expense claims must be submitted within 15 days of the transaction date. [OFF-REIMB]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-REIMB"
+        ]
+      },
+      {
+        "id": "q11",
+        "top_doc": "OFF-TRAVEL",
+        "answer": "Approved business travel must be booked through TripDesk. [OFF-TRAVEL]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-TRAVEL"
+        ]
+      },
+      {
+        "id": "q12",
+        "top_doc": "OFF-PROC",
+        "answer": "Procurement review is mandatory for purchases above INR 50,000. [OFF-PROC]",
+        "route": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": [
+          "OFF-PROC"
+        ]
+      },
+      {
+        "id": "q13",
+        "top_doc": "LEG-RATE",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "weak_evidence",
+        "expanded": false,
+        "correct": true,
+        "citations": []
+      },
+      {
+        "id": "q14",
+        "top_doc": "OFF-HR-PORTAL",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "low_relevance",
+        "expanded": false,
+        "correct": true,
+        "citations": []
+      },
+      {
+        "id": "q15",
+        "top_doc": "OFF-HR-PORTAL",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "low_relevance",
+        "expanded": false,
+        "correct": true,
+        "citations": []
+      },
+      {
+        "id": "q16",
+        "top_doc": "COM-REIMB",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "correct": true,
+        "citations": []
+      },
+      {
+        "id": "q17",
+        "top_doc": "OFF-LAB-A",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "correct": true,
+        "citations": []
+      },
+      {
+        "id": "q18",
+        "top_doc": "OFF-OFFICE-A",
+        "answer": "Insufficient reliable evidence to answer.",
+        "route": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "correct": true,
+        "citations": []
+      }
+    ]
+  }
+}

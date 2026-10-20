@@ -1,0 +1,936 @@
+{
+  "benchmark": "controlled_full_rag_fuzzy_v1",
+  "methodology": "End-to-end ingest -> retrieve -> fuzzy evidence assessment -> optional expanded retrieval -> grounded answer synthesis/citation or abstention. CLEAN checks ordinary RAG. CONFLICT adds stale/current sources, missing evidence, and equal-authority ambiguity. The deterministic extractive generator keeps the benchmark focused on orchestration instead of external-LLM variance; production APIs accept the same retrieved context path.",
+  "clean": {
+    "fuzzy": {
+      "system": "fuzzy",
+      "n_cases": 8,
+      "answerable_cases": 8,
+      "abstention_cases": 0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "end_to_end_accuracy": 1.0,
+      "grounding_accuracy": 1.0,
+      "abstention_accuracy": null,
+      "answer_accuracy_on_answerable": 1.0
+    },
+    "baseline": {
+      "system": "plain_tfidf",
+      "n_cases": 8,
+      "answerable_cases": 8,
+      "abstention_cases": 0,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "end_to_end_accuracy": 1.0,
+      "grounding_accuracy": 1.0,
+      "abstention_accuracy": null,
+      "answer_accuracy_on_answerable": 1.0
+    },
+    "fuzzy_cases": [
+      {
+        "id": "c1",
+        "query": "When does the observatory open on Saturday?",
+        "expected_abstain": false,
+        "top_doc": "C1",
+        "raw_relevance": 0.552814,
+        "fuzzy_score": 0.906574,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The observatory opens to visitors at 9 AM every Saturday. [C1]",
+        "citations": [
+          "C1"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "query": "Where is the chemistry safety briefing held?",
+        "expected_abstain": false,
+        "top_doc": "C2",
+        "raw_relevance": 0.825787,
+        "fuzzy_score": 0.95,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The chemistry safety briefing is held in Hall 7. [C2]",
+        "citations": [
+          "C2"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "query": "How long may library books be borrowed?",
+        "expected_abstain": false,
+        "top_doc": "C3",
+        "raw_relevance": 0.683723,
+        "fuzzy_score": 0.945038,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Library books may be borrowed for 21 days. [C3]",
+        "citations": [
+          "C3"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "query": "When does the robotics club meet?",
+        "expected_abstain": false,
+        "top_doc": "C4",
+        "raw_relevance": 0.742488,
+        "fuzzy_score": 0.95,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The robotics club meets on Thursday evenings. [C4]",
+        "citations": [
+          "C4"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "query": "Where is visitor parking?",
+        "expected_abstain": false,
+        "top_doc": "C5",
+        "raw_relevance": 0.79521,
+        "fuzzy_score": 0.95,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Visitor parking is located beside Gate 3. [C5]",
+        "citations": [
+          "C5"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "query": "What time does the campus shuttle begin service?",
+        "expected_abstain": false,
+        "top_doc": "C6",
+        "raw_relevance": 0.769605,
+        "fuzzy_score": 0.95,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The campus shuttle begins service at 6:30 AM. [C6]",
+        "citations": [
+          "C6"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "query": "How many credits is the data science seminar worth?",
+        "expected_abstain": false,
+        "top_doc": "C7",
+        "raw_relevance": 0.836653,
+        "fuzzy_score": 0.95,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The data science seminar carries two academic credits. [C7]",
+        "citations": [
+          "C7"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "query": "Where is the emergency assembly point?",
+        "expected_abstain": false,
+        "top_doc": "C8",
+        "raw_relevance": 0.683723,
+        "fuzzy_score": 0.945038,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The emergency assembly point is the North Lawn. [C8]",
+        "citations": [
+          "C8"
+        ],
+        "correct": true,
+        "grounded": true
+      }
+    ],
+    "baseline_cases": [
+      {
+        "id": "c1",
+        "query": "When does the observatory open on Saturday?",
+        "expected_abstain": false,
+        "top_doc": "C1",
+        "raw_relevance": 0.552814,
+        "fuzzy_score": 0.552814,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The observatory opens to visitors at 9 AM every Saturday. [C1]",
+        "citations": [
+          "C1"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c2",
+        "query": "Where is the chemistry safety briefing held?",
+        "expected_abstain": false,
+        "top_doc": "C2",
+        "raw_relevance": 0.825787,
+        "fuzzy_score": 0.825787,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The chemistry safety briefing is held in Hall 7. [C2]",
+        "citations": [
+          "C2"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c3",
+        "query": "How long may library books be borrowed?",
+        "expected_abstain": false,
+        "top_doc": "C3",
+        "raw_relevance": 0.683723,
+        "fuzzy_score": 0.683723,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Library books may be borrowed for 21 days. [C3]",
+        "citations": [
+          "C3"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c4",
+        "query": "When does the robotics club meet?",
+        "expected_abstain": false,
+        "top_doc": "C4",
+        "raw_relevance": 0.742488,
+        "fuzzy_score": 0.742488,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The robotics club meets on Thursday evenings. [C4]",
+        "citations": [
+          "C4"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c5",
+        "query": "Where is visitor parking?",
+        "expected_abstain": false,
+        "top_doc": "C5",
+        "raw_relevance": 0.79521,
+        "fuzzy_score": 0.79521,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Visitor parking is located beside Gate 3. [C5]",
+        "citations": [
+          "C5"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c6",
+        "query": "What time does the campus shuttle begin service?",
+        "expected_abstain": false,
+        "top_doc": "C6",
+        "raw_relevance": 0.769605,
+        "fuzzy_score": 0.769605,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The campus shuttle begins service at 6:30 AM. [C6]",
+        "citations": [
+          "C6"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c7",
+        "query": "How many credits is the data science seminar worth?",
+        "expected_abstain": false,
+        "top_doc": "C7",
+        "raw_relevance": 0.836653,
+        "fuzzy_score": 0.836653,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The data science seminar carries two academic credits. [C7]",
+        "citations": [
+          "C7"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "c8",
+        "query": "Where is the emergency assembly point?",
+        "expected_abstain": false,
+        "top_doc": "C8",
+        "raw_relevance": 0.683723,
+        "fuzzy_score": 0.683723,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The emergency assembly point is the North Lawn. [C8]",
+        "citations": [
+          "C8"
+        ],
+        "correct": true,
+        "grounded": true
+      }
+    ]
+  },
+  "conflict": {
+    "fuzzy": {
+      "system": "fuzzy",
+      "n_cases": 18,
+      "answerable_cases": 12,
+      "abstention_cases": 6,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "end_to_end_accuracy": 1.0,
+      "grounding_accuracy": 1.0,
+      "abstention_accuracy": 1.0,
+      "answer_accuracy_on_answerable": 1.0
+    },
+    "baseline": {
+      "system": "plain_tfidf",
+      "n_cases": 18,
+      "answerable_cases": 12,
+      "abstention_cases": 6,
+      "recall_at_1": 0.25,
+      "recall_at_3": 1.0,
+      "mrr": 0.611111111111111,
+      "end_to_end_accuracy": 0.2777777777777778,
+      "grounding_accuracy": 1.0,
+      "abstention_accuracy": 0.3333333333333333,
+      "answer_accuracy_on_answerable": 0.25
+    },
+    "fuzzy_cases": [
+      {
+        "id": "q1",
+        "query": "What is the current HR portal for leave requests and payslips?",
+        "expected_abstain": false,
+        "top_doc": "OFF-HR-PORTAL",
+        "raw_relevance": 0.221707,
+        "fuzzy_score": 0.614084,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "All employee self-service tasks, including leave requests and payslips, are now handled in PeopleHub. [OFF-HR-PORTAL]",
+        "citations": [
+          "OFF-HR-PORTAL"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q2",
+        "query": "How many paid leave days do employees get per year under the current policy?",
+        "expected_abstain": false,
+        "top_doc": "OFF-LEAVE",
+        "raw_relevance": 0.366908,
+        "fuzzy_score": 0.87,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The 2026 employee benefits policy grants 18 paid leave days per calendar year. [OFF-LEAVE]",
+        "citations": [
+          "OFF-LEAVE"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q3",
+        "query": "How many remote work days per week are currently allowed with manager approval?",
+        "expected_abstain": false,
+        "top_doc": "OFF-REMOTE",
+        "raw_relevance": 0.383162,
+        "fuzzy_score": 0.87,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Under the active flexible-work policy, employees may work remotely up to two days per week with manager approval. [OFF-REMOTE]",
+        "citations": [
+          "OFF-REMOTE"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q4",
+        "query": "By which working day are salary slips published each month?",
+        "expected_abstain": false,
+        "top_doc": "OFF-PAYSLIP",
+        "raw_relevance": 0.457118,
+        "fuzzy_score": 0.879986,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Payroll publishes salary slips by the fifth working day of each month. [OFF-PAYSLIP]",
+        "citations": [
+          "OFF-PAYSLIP"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q5",
+        "query": "Which VPN protocol is required by the current corporate security baseline?",
+        "expected_abstain": false,
+        "top_doc": "OFF-VPN",
+        "raw_relevance": 0.514507,
+        "fuzzy_score": 0.895782,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The security baseline now requires WireGuard for the standard corporate VPN profile. [OFF-VPN]",
+        "citations": [
+          "OFF-VPN"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q6",
+        "query": "What is the production database backup retention period?",
+        "expected_abstain": false,
+        "top_doc": "OFF-BACKUP",
+        "raw_relevance": 0.424384,
+        "fuzzy_score": 0.87117,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Production database backups have a retention period of 30 days. [OFF-BACKUP]",
+        "citations": [
+          "OFF-BACKUP"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q7",
+        "query": "What is the current public API rate limit per minute per token?",
+        "expected_abstain": false,
+        "top_doc": "OFF-RATE",
+        "raw_relevance": 0.260415,
+        "fuzzy_score": 0.752811,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The current gateway quota permits 120 requests per minute per token. [OFF-RATE]",
+        "citations": [
+          "OFF-RATE"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q8",
+        "query": "Which cloud region is primary for production?",
+        "expected_abstain": false,
+        "top_doc": "OFF-REGION",
+        "raw_relevance": 0.400734,
+        "fuzzy_score": 0.87,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "The production primary region is ap-south-1; disaster recovery remains in a separate region. [OFF-REGION]",
+        "citations": [
+          "OFF-REGION"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q9",
+        "query": "What is the domestic business travel meal expense cap per day?",
+        "expected_abstain": false,
+        "top_doc": "OFF-EXPENSE",
+        "raw_relevance": 0.391575,
+        "fuzzy_score": 0.87,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "For domestic business travel, reimbursable meals are capped at INR 4,500 per day. [OFF-EXPENSE]",
+        "citations": [
+          "OFF-EXPENSE"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q10",
+        "query": "Within how many days must expense reimbursement claims be submitted?",
+        "expected_abstain": false,
+        "top_doc": "OFF-REIMB",
+        "raw_relevance": 0.513156,
+        "fuzzy_score": 0.895405,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Expense claims must be submitted within 15 days of the transaction date. [OFF-REIMB]",
+        "citations": [
+          "OFF-REIMB"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q11",
+        "query": "Which portal must be used to book approved business travel?",
+        "expected_abstain": false,
+        "top_doc": "OFF-TRAVEL",
+        "raw_relevance": 0.580663,
+        "fuzzy_score": 0.914548,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Approved business travel must be booked through TripDesk. [OFF-TRAVEL]",
+        "citations": [
+          "OFF-TRAVEL"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q12",
+        "query": "Above what amount is procurement review mandatory?",
+        "expected_abstain": false,
+        "top_doc": "OFF-PROC",
+        "raw_relevance": 0.512226,
+        "fuzzy_score": 0.895146,
+        "decision": "generate",
+        "reason": "strong_evidence",
+        "expanded": false,
+        "answer": "Procurement review is mandatory for purchases above INR 50,000. [OFF-PROC]",
+        "citations": [
+          "OFF-PROC"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q13",
+        "query": "What is the company dental insurance annual limit?",
+        "expected_abstain": true,
+        "top_doc": "LEG-RATE",
+        "raw_relevance": 0.325883,
+        "fuzzy_score": 0.428049,
+        "decision": "abstain",
+        "reason": "weak_evidence",
+        "expanded": false,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q14",
+        "query": "What is the cafeteria breakfast price?",
+        "expected_abstain": true,
+        "top_doc": "OFF-HR-PORTAL",
+        "raw_relevance": 0.0,
+        "fuzzy_score": 0.06,
+        "decision": "abstain",
+        "reason": "low_relevance",
+        "expanded": false,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q15",
+        "query": "What is the emergency satellite phone number?",
+        "expected_abstain": true,
+        "top_doc": "OFF-HR-PORTAL",
+        "raw_relevance": 0.0,
+        "fuzzy_score": 0.06,
+        "decision": "abstain",
+        "reason": "low_relevance",
+        "expanded": false,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q16",
+        "query": "What is the annual gym membership reimbursement?",
+        "expected_abstain": true,
+        "top_doc": "COM-REIMB",
+        "raw_relevance": 0.333617,
+        "fuzzy_score": 0.54,
+        "decision": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q17",
+        "query": "Which room is the graduate AI lab currently in?",
+        "expected_abstain": true,
+        "top_doc": "OFF-LAB-A",
+        "raw_relevance": 0.752053,
+        "fuzzy_score": 0.95,
+        "decision": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q18",
+        "query": "When are Professor Sen's office hours?",
+        "expected_abstain": true,
+        "top_doc": "OFF-OFFICE-A",
+        "raw_relevance": 0.702454,
+        "fuzzy_score": 0.95,
+        "decision": "abstain",
+        "reason": "ambiguous_after_expansion",
+        "expanded": true,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      }
+    ],
+    "baseline_cases": [
+      {
+        "id": "q1",
+        "query": "What is the current HR portal for leave requests and payslips?",
+        "expected_abstain": false,
+        "top_doc": "LEG-HR-PORTAL",
+        "raw_relevance": 0.807312,
+        "fuzzy_score": 0.807312,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The current HR portal for leave requests and payslips is WorkSphere. [LEG-HR-PORTAL]",
+        "citations": [
+          "LEG-HR-PORTAL"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q2",
+        "query": "How many paid leave days do employees get per year under the current policy?",
+        "expected_abstain": false,
+        "top_doc": "LEG-LEAVE",
+        "raw_relevance": 0.602126,
+        "fuzzy_score": 0.602126,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Employees receive 15 paid leave days per year under the leave policy. [LEG-LEAVE]",
+        "citations": [
+          "LEG-LEAVE"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q3",
+        "query": "How many remote work days per week are currently allowed with manager approval?",
+        "expected_abstain": false,
+        "top_doc": "LEG-REMOTE",
+        "raw_relevance": 0.699429,
+        "fuzzy_score": 0.699429,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The current remote work policy permits three remote days per week with manager approval. [LEG-REMOTE]",
+        "citations": [
+          "LEG-REMOTE"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q4",
+        "query": "By which working day are salary slips published each month?",
+        "expected_abstain": false,
+        "top_doc": "LEG-PAYSLIP",
+        "raw_relevance": 0.672029,
+        "fuzzy_score": 0.672029,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Salary slips are published on the tenth working day of each month. [LEG-PAYSLIP]",
+        "citations": [
+          "LEG-PAYSLIP"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q5",
+        "query": "Which VPN protocol is required by the current corporate security baseline?",
+        "expected_abstain": false,
+        "top_doc": "LEG-VPN",
+        "raw_relevance": 0.524301,
+        "fuzzy_score": 0.524301,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The supported corporate VPN protocol is OpenVPN. [LEG-VPN]",
+        "citations": [
+          "LEG-VPN"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q6",
+        "query": "What is the production database backup retention period?",
+        "expected_abstain": false,
+        "top_doc": "LEG-BACKUP",
+        "raw_relevance": 0.556814,
+        "fuzzy_score": 0.556814,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Production database backups are retained for 14 days. [LEG-BACKUP]",
+        "citations": [
+          "LEG-BACKUP"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q7",
+        "query": "What is the current public API rate limit per minute per token?",
+        "expected_abstain": false,
+        "top_doc": "LEG-RATE",
+        "raw_relevance": 0.845222,
+        "fuzzy_score": 0.845222,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The public API rate limit is 60 requests per minute per token. [LEG-RATE]",
+        "citations": [
+          "LEG-RATE"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q8",
+        "query": "Which cloud region is primary for production?",
+        "expected_abstain": false,
+        "top_doc": "LEG-REGION",
+        "raw_relevance": 0.542439,
+        "fuzzy_score": 0.542439,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The primary deployment region is us-east-1. [LEG-REGION]",
+        "citations": [
+          "LEG-REGION"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q9",
+        "query": "What is the domestic business travel meal expense cap per day?",
+        "expected_abstain": false,
+        "top_doc": "LEG-EXPENSE",
+        "raw_relevance": 0.671336,
+        "fuzzy_score": 0.671336,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The meal expense cap is INR 3,000 per day on domestic travel. [LEG-EXPENSE]",
+        "citations": [
+          "LEG-EXPENSE"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q10",
+        "query": "Within how many days must expense reimbursement claims be submitted?",
+        "expected_abstain": false,
+        "top_doc": "OFF-REIMB",
+        "raw_relevance": 0.513156,
+        "fuzzy_score": 0.513156,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Expense claims must be submitted within 15 days of the transaction date. [OFF-REIMB]",
+        "citations": [
+          "OFF-REIMB"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q11",
+        "query": "Which portal must be used to book approved business travel?",
+        "expected_abstain": false,
+        "top_doc": "OFF-TRAVEL",
+        "raw_relevance": 0.580663,
+        "fuzzy_score": 0.580663,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Approved business travel must be booked through TripDesk. [OFF-TRAVEL]",
+        "citations": [
+          "OFF-TRAVEL"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q12",
+        "query": "Above what amount is procurement review mandatory?",
+        "expected_abstain": false,
+        "top_doc": "OFF-PROC",
+        "raw_relevance": 0.512226,
+        "fuzzy_score": 0.512226,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Procurement review is mandatory for purchases above INR 50,000. [OFF-PROC]",
+        "citations": [
+          "OFF-PROC"
+        ],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q13",
+        "query": "What is the company dental insurance annual limit?",
+        "expected_abstain": true,
+        "top_doc": "LEG-RATE",
+        "raw_relevance": 0.325883,
+        "fuzzy_score": 0.325883,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The public API rate limit is 60 requests per minute per token. [LEG-RATE]",
+        "citations": [
+          "LEG-RATE"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q14",
+        "query": "What is the cafeteria breakfast price?",
+        "expected_abstain": true,
+        "top_doc": "LEG-HR-PORTAL",
+        "raw_relevance": 0.0,
+        "fuzzy_score": 0.0,
+        "decision": "abstain",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q15",
+        "query": "What is the emergency satellite phone number?",
+        "expected_abstain": true,
+        "top_doc": "LEG-HR-PORTAL",
+        "raw_relevance": 0.0,
+        "fuzzy_score": 0.0,
+        "decision": "abstain",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Insufficient reliable evidence to answer.",
+        "citations": [],
+        "correct": true,
+        "grounded": true
+      },
+      {
+        "id": "q16",
+        "query": "What is the annual gym membership reimbursement?",
+        "expected_abstain": true,
+        "top_doc": "COM-REIMB",
+        "raw_relevance": 0.333617,
+        "fuzzy_score": 0.333617,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Finance may request additional receipts during reimbursement review. [COM-REIMB]",
+        "citations": [
+          "COM-REIMB"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q17",
+        "query": "Which room is the graduate AI lab currently in?",
+        "expected_abstain": true,
+        "top_doc": "OFF-LAB-A",
+        "raw_relevance": 0.752053,
+        "fuzzy_score": 0.752053,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "The graduate AI lab has moved to room B-204. [OFF-LAB-A]",
+        "citations": [
+          "OFF-LAB-A"
+        ],
+        "correct": false,
+        "grounded": true
+      },
+      {
+        "id": "q18",
+        "query": "When are Professor Sen's office hours?",
+        "expected_abstain": true,
+        "top_doc": "OFF-OFFICE-A",
+        "raw_relevance": 0.702454,
+        "fuzzy_score": 0.702454,
+        "decision": "generate",
+        "reason": "tfidf_threshold",
+        "expanded": false,
+        "answer": "Professor Sen holds office hours on Tuesday at 3 PM. [OFF-OFFICE-A]",
+        "citations": [
+          "OFF-OFFICE-A"
+        ],
+        "correct": false,
+        "grounded": true
+      }
+    ]
+  }
+}
